@@ -26,14 +26,14 @@ end
 type = args{1};
 if length(args)>1
     tend = args{2};
-end
-if length(args)>2
-    npoints = args{3};
-else
-    if isscalar(tend)
-        npoints = 1001;
+    if length(args)>2
+        npoints = args{3};
     else
-        npoints = length(tend);
+        if isscalar(tend)
+            npoints = 1001;
+        else
+            npoints = length(tend);
+        end
     end
 end
 
