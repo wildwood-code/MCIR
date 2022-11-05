@@ -45,6 +45,7 @@ classdef voltage < MCIR.Source
             parms = struct('DC', obj.DC, 'AC', obj.AC, 'RSER', obj.Rser);
             new = MCIR.voltage(obj.nodes{1}, obj.nodes{2}, parms);
             new.name = obj.name;
+            new.tr = obj.tr;  % copy transient info from Source
         end
         
         function str = list(obj)

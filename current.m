@@ -45,6 +45,7 @@ classdef current < MCIR.Source
             parms = struct('DC', obj.DC, 'AC', obj.AC, 'RPAR', obj.Rpar);
             new = MCIR.current(obj.nodes{1}, obj.nodes{2}, parms);
             new.name = obj.name;
+            new.tr = obj.tr;  % copy transient info from Source
         end
          
         function str = list(obj)
