@@ -30,7 +30,11 @@ end
 if length(args)>2
     npoints = args{3};
 else
-    npoints = 1001;
+    if isscalar(tend)
+        npoints = 1001;
+    else
+        npoints = length(tend);
+    end
 end
 
 if nargin==2
@@ -65,21 +69,36 @@ else
         % AC stimulus is 0, DC stimulus is 1, all other calculated
         stims = eqns.u;
         nu = length(stims);
-        if tend>0
-            if npoints<10
-                error('Must have at least 10 points for simulation')
-            end
-            T = linspace(0,tend,npoints);
-            u = zeros(npoints,nu);
-            for i=1:nu
-                u(:,nu) = tran_eval(stims(i), T);
+        if isscalar(tend)
+            % generate the time vector and calculate response
+            if tend>0
+                if npoints<10
+                    error('Must have at least 10 points for simulation')
+                end
+                T = linspace(0,tend,npoints);
+                u = zeros(npoints,nu);
+                for i=1:nu
+                    u(:,nu) = tran_eval(stims(i), T);
+                end
+            else
+                T = -1;
+                u = zeros(nu,1); % column vector for initial u(0)
+                for i=1:nu
+                    u(i,1) = tran_eval(stims(i), T);
+                end
             end
         else
-            T = -1;
-            u = zeros(nu,1); % column vector for initial u(0)
-            for i=1:nu
-                u(i,1) = tran_eval(stims(i), T);
+            % tend was passed as a time vector, calculate response for it
+            if npoints<10
+                error('Must have at least 10 points for simulation')
+            elseif tend(1)~=0
+                error('First time sample must be at t=0')
             end
+            T = tend;
+            u = zeros(npoints, nu);
+            for i=1:nu
+                u(:,nu) = tran_eval(stims(i), T);
+            end            
         end
         
     else

@@ -138,13 +138,18 @@ classdef capacitor < MCIR.Device
         end
         
         function set.IC(obj, ic)
-            [ic,tf] = MCIR.Device.eval_value(ic);
-            if ~tf
-                throw(MCIR.capacitor.ME_InvalidValue);
-            elseif MCIR.Device.is_undef(ic)
-                obj.ic = MCIR.Device.undef;
-            else
+            if isempty(ic)
                 obj.ic = ic;
+            else
+                [ic,tf] = MCIR.Device.eval_value(ic);
+
+                if ~tf
+                    throw(MCIR.capacitor.ME_InvalidValue);
+                elseif MCIR.Device.is_undef(ic)
+                    obj.ic = MCIR.Device.undef;
+                else
+                    obj.ic = ic;
+                end
             end
         end
         
