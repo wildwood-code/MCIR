@@ -333,10 +333,11 @@ classdef Circuit < MCIR.Device
                     p = obj.cir_params(i);
                     str = str + sprintf(" %s=%s", p.PARAM, MCIR.Device.encode_value(p.VALUE));
                 end
-            end
-            if ~isempty(obj.devices)
                 str = str + newline;
             end
+%            if ~isempty(obj.devices)
+%                str = str + newline;
+%            end
             if isempty(obj.devices) && isempty(obj.cir_params)
                 str = str + "<EMPTY>";
             else

@@ -15,7 +15,7 @@ function [y,t] = tr(obj,varargin)
 
 narginchk(2,3)
 Tend = varargin{1};
-if isscalar(Tend)
+if isscalar(Tend)||ischar(Tend)||isstring(Tend)
     Tend = MCIR.Device.eval_value(Tend);
     if nargin<3
         Npoints = 101;
@@ -25,7 +25,7 @@ if isscalar(Tend)
 end
 
 [SYS,x0] = obj.ss;
-if isscalar(Tend)
+if isscalar(Tend)||ischar(Tend)||isstring(Tend)
     [u,t] = obj.gen_stim('tr',Tend,Npoints);
 else
     [u,t] = obj.gen_stim('tr', Tend);  % Tend is time vector
